@@ -65,14 +65,14 @@ var indexVue = new Vue({
 
 const videoConstrain = {
   video: true,
-  //   audio: true,
+  // audio: true,
 };
 const localVideo = document.querySelector("video");
 var stream;
 
 function getMediaSuccess(mediaStream) {
   //   $("localVideo").attr("srcObject") = mediaStream;
-  stream = mediaStream;
+  // stream = mediaStream;
   localVideo.srcObject = mediaStream;
 }
 
