@@ -28,20 +28,20 @@ var indexVue = new Vue({
 
         console.log("user press stop record...");
         reqInfo = {
+          headers: {
+            referer: "https://liff.line.me/1656053787-5zn8QjRX",
+            authcode: "fromLine",
+          },
           data: e.data,
         };
         console.log("the info is ", reqInfo);
       };
-
-      console.log("here is ", reqInfo);
+      setTimeout(() => {
+        console.log("here is ", reqInfo);
+      }, 3000);
       //    need to change url
       axios
-        .post("http://localhost:6003/test", reqInfo, {
-          headers: {
-            // referer: "https://liff.line.me/1656053787-5zn8QjRX",
-            authcode: "fromLine",
-          },
-        })
+        .post("http://localhost:6003/test", reqInfo)
         .then((res) => {
           console.log(res);
         })

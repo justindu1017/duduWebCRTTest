@@ -5,8 +5,22 @@ var indexVue = new Vue({
   data: {
     isRecording: false,
     recorder: "",
+    reqInfo: "",
   },
   methods: {
+    promiseStopRecord() {
+      this.recorder.stop();
+      console.log("Stopping...", this.recorder);
+      return new Promise((resolve, reject) => {
+        this.recorder.ondataavailable = (e) => {
+          console.log("user press stop record...");
+          this.reqInfo = e.data;
+          console.log("the info is ", this.reqInfo);
+          resolve();
+          console.log("resolving...");
+        };
+      });
+    },
     startRecord() {
       console.log("recording...");
       MediaRecorder.isTypeSupported("video/webm;codecs=h264")
@@ -16,33 +30,31 @@ var indexVue = new Vue({
     },
     stopRecord() {
       console.log("stop recording...");
-      this.recorder.ondataavailable = (e) => {
-        console.log("here: ", e);
-
-        var a = document.createElement("a");
-        a.download = ["video_", (new Date() + "").slice(4, 28), ".webm"].join(
-          ""
-        );
-        a.href = URL.createObjectURL(e.data);
-        // fetch(URL.createObjectURL(e.data)).then((res) =>
-        //   console.log(
-        //     "herer: ",
-        //     res.arrayBuffer().then((e) => {
-        //       console.log(e);
-        //     })
-        //   )
-        // );
-        // console.log(e.data);
-        a.textContent = a.download;
-        // console.log(document.getElementsByClassName("as"));
-        document.getElementById("as").appendChild(a);
-
-        console.log("user press stop record...");
-      };
-      this.recorder.stop();
-
-      this.isRecording = false;
+      this.promiseStopRecord()
+        .then(() => {
+          console.log("here is ", this.reqInfo);
+          //    need to change url
+          axios
+            .post("http://localhost:6003/test", this.reqInfo, {
+              headers: {
+                // referer: "https://liff.line.me/1656053787-5zn8QjRX",
+                authcode: "fromLine",
+              },
+            })
+            .then((res) => {
+              console.log(res);
+              this.isRecording = false;
+            })
+            .catch((err) => {
+              console.log("err ", err);
+              this.isRecording = false;
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
+
     recordH264() {
       this.recorder = new MediaRecorder(stream, {
         mimeType: "video/webm;codecs=h264",
