@@ -17,21 +17,21 @@ var indexVue = new Vue({
     stopRecord() {
       console.log("stop recording...");
       this.recorder.ondataavailable = (e) => {
-        console.log("here: ", JSON.stringify(e.data));
+        console.log("here: ", e);
 
         var a = document.createElement("a");
         a.download = ["video_", (new Date() + "").slice(4, 28), ".webm"].join(
           ""
         );
         a.href = URL.createObjectURL(e.data);
-        fetch(URL.createObjectURL(e.data)).then((res) =>
-          console.log(
-            "herer: ",
-            res.arrayBuffer().then((e) => {
-              console.log(e);
-            })
-          )
-        );
+        // fetch(URL.createObjectURL(e.data)).then((res) =>
+        //   console.log(
+        //     "herer: ",
+        //     res.arrayBuffer().then((e) => {
+        //       console.log(e);
+        //     })
+        //   )
+        // );
         // console.log(e.data);
         a.textContent = a.download;
         // console.log(document.getElementsByClassName("as"));
@@ -72,7 +72,7 @@ var stream;
 
 function getMediaSuccess(mediaStream) {
   //   $("localVideo").attr("srcObject") = mediaStream;
-  // stream = mediaStream;
+  stream = mediaStream;
   localVideo.srcObject = mediaStream;
 }
 
