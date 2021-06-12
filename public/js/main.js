@@ -33,7 +33,10 @@ var indexVue = new Vue({
       this.promiseStopRecord()
         .then(() => {
           console.log("here is ", this.reqInfo);
-          //    need to change url
+
+          // let fm = new FormData();
+          // fm.append("file", this.reqInfo);
+
           axios
             .post("http://localhost:6003/test", this.reqInfo, {
               headers: {
@@ -43,6 +46,7 @@ var indexVue = new Vue({
             })
             .then((res) => {
               console.log(res);
+              console.log("stop btn");
               this.isRecording = false;
             })
             .catch((err) => {
