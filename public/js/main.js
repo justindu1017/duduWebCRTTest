@@ -45,12 +45,9 @@ var indexVue = new Vue({
               },
             })
             .then((res) => {
-              console.log(res);
-              console.log("stop btn");
               this.isRecording = false;
             })
             .catch((err) => {
-              console.log("err ", err);
               this.isRecording = false;
             });
         })
