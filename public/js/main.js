@@ -38,12 +38,16 @@ var indexVue = new Vue({
           // fm.append("file", this.reqInfo);
 
           axios
-            .post("http://localhost:6003/test", this.reqInfo, {
-              headers: {
-                // referer: "https://liff.line.me/1656053787-5zn8QjRX",
-                authcode: "fromLine",
-              },
-            })
+            .post(
+              "http://localhost:6003/postStream",
+              this.reqInfo
+              // {
+              //   headers: {
+              //     // referer: "https://liff.line.me/1656053787-5zn8QjRX",
+              //     authcode: "fromLine",
+              //   },
+              // }
+            )
             .then((res) => {
               this.isRecording = false;
             })
